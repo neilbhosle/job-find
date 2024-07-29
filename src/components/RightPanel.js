@@ -18,10 +18,10 @@ const RightPanel = () => {
         <button type="submit">Sign Up</button>
       </form>
       <p>
-        By continuing, you agree to the JobFind <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        By continuing, you agree to the JobFind <button className="link-button" onClick={() => {}}>Terms of Service</button> and <button className="link-button" onClick={() => {}}>Privacy Policy</button>
       </p>
       <p>
-        Already a member? <a href="#">Sign in now</a>
+        Already a member? <button className="link-button" onClick={() => {}}>Sign in now</button>
       </p>
     </div>
   );

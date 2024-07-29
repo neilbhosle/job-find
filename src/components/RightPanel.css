@@ -57,3 +57,16 @@
     cursor: pointer;
   }
   
+  .link-button {
+    background: none;
+    color: blue;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .link-button:hover {
+    text-decoration: none;
+  }
