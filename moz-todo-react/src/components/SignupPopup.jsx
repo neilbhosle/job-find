@@ -220,7 +220,7 @@ function SignupPopup({ open, onClose }) {
               />
               <FormControlLabel
                 control={<StyledCheckbox checked={receiveUpdates} onChange={() => setReceiveUpdates(!receiveUpdates)} />}
-                label="I want to receive updates from Jobright about latest job offers"
+                label="I want to receive updates from Jobdope about latest job offers"
               />
               <SignUpButton onClick={handleSignup} loading={loading}>
                 {loading ? <CircularProgress size={24} /> : 'Sign Up'}
