@@ -13,7 +13,7 @@ import { blueGrey } from '@mui/material/colors';
 
 // Styled components
 const GoogleButton = styled(Button)(({ theme }) => ({
-  background: 'black',
+  background: '#212e7c',
   color: '#fff', // Google blue
   borderRadius: '5px',
   padding: '10px 20px',
@@ -26,7 +26,7 @@ const GoogleButton = styled(Button)(({ theme }) => ({
   alignItems: 'center',
   width: '100%', // Full width
   '&:hover': {
-    background: '#7788EE',
+    background: '#000',
     color: '#fff',
   },
 }));
@@ -35,7 +35,7 @@ const StyledTextField = styled(TextField)(({ theme, error }) => ({
   marginBottom: theme.spacing(2),
   '& .MuiOutlinedInput-root': {
     borderRadius: '5px',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#eaedff',
     border: error ? '0.5px solid red' : '0.05px solid #a9a9a9',
   },
   '& .MuiInputLabel-outlined': {
@@ -47,7 +47,7 @@ const StyledTextField = styled(TextField)(({ theme, error }) => ({
 }));
 
 const SignUpButton = styled(Button)(({ theme, loading }) => ({
-  background: 'black',
+  background: '#212e7c',
   color: '#fff',
   borderRadius: '5px',
   padding: '10px 20px',
@@ -61,7 +61,7 @@ const SignUpButton = styled(Button)(({ theme, loading }) => ({
   height: '48px', // Fixed height
   position: 'relative',
   '&:hover': {
-    background: '#7788EE',
+    background: '#000',
     color: 'white',
     '& .MuiCircularProgress-root': {
       color: 'white',
@@ -122,7 +122,7 @@ const FormContainer = styled('div')({
 const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
   color: '#7788EE',
   '&.Mui-checked': {
-    color: '#7788EE',
+    color: '#212e7c',
   },
 }));
 
@@ -176,8 +176,13 @@ function SignupPopup({ open, onClose }) {
     <>
       <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth sx={{ borderRadius: '5px', height: 'auto' }}>
         <DialogTitle>
-          <Typography variant="h6">
-            <center>Create a <span style={{ color: '#000' }}><b>new account</b></span>  to get started</center>
+        <Typography variant="h6" component="div" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span>Create a <b>new account</b> to get started with</span>
+            <img
+              src="/jobdope-2.png"
+              alt="Jobdope"
+              style={{ height: '40px', marginLeft: '10px' }}
+            />
           </Typography>
           <CloseButton onClick={onClose} size="small">
             <CloseIcon />
@@ -186,12 +191,12 @@ function SignupPopup({ open, onClose }) {
         <DialogContent>
           <SignupPopupContainer>
             <AnimationContainer>
-              <img src="/animation.gif" alt="Signup Animation" style={{ width: '300%', height: '110%' }} />
+              <img src="/animation.jpg" alt="Signup Animation" style={{ width: '140%', height: '110%' }} />
             </AnimationContainer>
             <FormContainer>
-              <GoogleButton startIcon={<GoogleIcon />}>
-                Sign up with Google
-              </GoogleButton>
+            <GoogleButton startIcon={<img src="/g.png" alt="Google" style={{ height: '24px', width: '24px', marginRight: '8px' }} />}>
+                Sign in with Google
+            </GoogleButton>
               <Divider sx={{ my: 2 }} />
               <Typography align="center">OR</Typography>
               <br />

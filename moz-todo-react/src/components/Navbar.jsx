@@ -1,71 +1,88 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Button, IconButton, Menu, MenuItem } from '@mui/material';
+import {
+  AppBar, Toolbar, Button, IconButton, Menu, MenuItem, Avatar, Tooltip
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
 import LoginPopup from './LoginPopup'; 
 import SignUpPopup from './SignupPopup'; 
+import { useTheme } from '@mui/material/styles';
 
+// Styled components
 const GradientButton = styled(Button)(({ theme }) => ({
   background: 'transparent',
-  color: '#000', // Blue text color
-  borderRadius: '12px', // Less round
+  color: '#000',
+  borderRadius: '12px',
   padding: '10px 20px',
   textTransform: 'none',
   fontSize: '16px',
   fontWeight: 'bold',
   transition: 'all 0.3s ease',
-  border: '2px solid transparent',
-  marginLeft: theme.spacing(2), // Add margin to space out buttons
+  marginLeft: theme.spacing(2),
+  cursor: 'pointer',
   '&:hover': {
     background: 'transparent',
-    border: '2px solid #000',
-    color: '#000',
-    boxShadow: '0 0 10px rgba(0, 123, 255, 0.5)', // Blue glow
+    color: '#7788EE',
+    textShadow: '0 0 6px #7788EE',
   },
 }));
 
 const SignupButton = styled(Button)(({ theme }) => ({
-  background: '#000', // Blue background
+  background: '#000',
   color: 'white',
-  borderRadius: '12px', // Less round
+  borderRadius: '12px',
   padding: '10px 20px',
   textTransform: 'none',
   fontSize: '16px',
   fontWeight: 'bold',
   transition: 'all 0.3s ease',
-  marginLeft: theme.spacing(2), // Add margin to space out buttons
+  marginLeft: theme.spacing(2),
+  cursor: 'pointer',
   '&:hover': {
     background: '#7788EE',
     color: '#fff',
-    boxShadow: '0 0 10px rgba(173, 216, 230, 0.7)', // Light blue glow
+    textShadow: '0 0 6px #7788EE',
   },
 }));
 
 const FeaturesButton = styled(Button)(({ theme }) => ({
   background: 'transparent',
-  color: '#000', // Blue text color
-  borderRadius: '12px', // Less round
+  color: '#000',
+  borderRadius: '12px',
   padding: '10px 20px',
   textTransform: 'none',
   fontSize: '16px',
   fontWeight: 'bold',
   transition: 'all 0.3s ease',
-  border: '2px solid transparent',
   marginLeft: theme.spacing(2),
+  cursor: 'pointer',
   '&:hover': {
     background: 'transparent',
-    border: '2px solid #000',
-    color: '#000',
-    boxShadow: '0 0 10px rgba(0, 123, 255, 0.5)', // Blue glow
+    color: '#212e7c',
+    textShadow: '0 0 6px #7788EE',
+  },
+}));
+
+const CustomMenu = styled(Menu)(({ theme }) => ({
+  borderRadius: '8px',
+}));
+
+const CustomMenuItem = styled(MenuItem)(({ theme }) => ({
+  '&:hover': {
+    backgroundColor: '#e2e6ff',
   },
 }));
 
 function Navbar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [openLoginPopup, setOpenLoginPopup] = useState(false);
   const [openSignUpPopup, setOpenSignUpPopup] = useState(false);
+  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false); // State to manage login status
+
+  const theme = useTheme(); // Access theme for color
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -75,24 +92,41 @@ function Navbar() {
     setAnchorEl(null);
   };
 
+  const handleUserMenuClick = (event) => {
+    setUserMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setUserMenuAnchorEl(null);
+  };
+
   const handleScroll = () => {
-    setScrolled(window.scrollY > 50); // Change 50 to the scroll position where you want the background to change
+    setScrolled(window.scrollY > 50);
   };
 
   const handleLoginClick = () => {
-    setOpenLoginPopup(true); // Open the login popup
+    setOpenLoginPopup(true);
   };
 
   const handleSignUpClick = () => {
-    setOpenSignUpPopup(true); // Open the signup popup
+    setOpenSignUpPopup(true);
   };
 
   const handleCloseLoginPopup = () => {
-    setOpenLoginPopup(false); // Close the login popup
+    setOpenLoginPopup(false);
   };
 
   const handleCloseSignUpPopup = () => {
-    setOpenSignUpPopup(false); // Close the signup popup
+    setOpenSignUpPopup(false);
+  };
+
+  const handleLoginSuccess = () => {
+    setLoggedIn(true);
+    handleCloseLoginPopup(); // Close login popup
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
   };
 
   useEffect(() => {
@@ -102,57 +136,84 @@ function Navbar() {
 
   return (
     <>
-      <AppBar 
-        position="fixed" 
-        sx={{ 
-          background: scrolled ? 'white' : 'transparent', 
+      <AppBar
+        position="fixed"
+        sx={{
+          background: scrolled ? 'white' : 'transparent',
           boxShadow: scrolled ? '0 2px 4px rgba(0, 0, 0, 0.1)' : 'none',
           transition: 'background 0.3s, box-shadow 0.3s',
-          zIndex: 1100 // Ensures the navbar stays on top
+          zIndex: 1100
         }}
       >
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <img
-            src="/jobdope.png"
+            src="/jobdope-2.png"
             alt="Jobdope"
-            style={{ height: '60px', marginRight: '20px' }} // Adjust the height and margin as needed
+            style={{ height: '60px', marginRight: '20px' }}
           />
           <FeaturesButton
             color="inherit"
             onClick={handleClick}
-            endIcon={<ExpandMoreIcon />} // Dropdown indicator
+            endIcon={<ExpandMoreIcon />}
           >
             Features
           </FeaturesButton>
-          <Menu
+          <CustomMenu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>AI Job Match</MenuItem>
-            <MenuItem onClick={handleClose}>H1B Sponsors</MenuItem>
-            <MenuItem onClick={handleClose}>5-Second Resume</MenuItem>
-            <MenuItem onClick={handleClose}>Resume Customization</MenuItem> {/* Renamed field */}
-          </Menu>
+            <CustomMenuItem onClick={handleClose}>AI Job Match</CustomMenuItem>
+            <CustomMenuItem onClick={handleClose}>H1B Sponsors</CustomMenuItem>
+            <CustomMenuItem onClick={handleClose}>5-Second Resume</CustomMenuItem>
+            <CustomMenuItem onClick={handleClose}>Resume Customization</CustomMenuItem>
+          </CustomMenu>
           <GradientButton>Resume AI</GradientButton>
           <GradientButton>About Us</GradientButton>
           <GradientButton>Blog</GradientButton>
+          <GradientButton>Pricing</GradientButton>
           <div style={{ flexGrow: 1 }} />
-          <GradientButton onClick={handleLoginClick}>Login</GradientButton> {/* Open login popup */}
-          <SignupButton onClick={handleSignUpClick}>Signup</SignupButton> {/* Open signup popup */}
+          {loggedIn ? (
+            <>
+              <Tooltip title="User Menu">
+                <IconButton onClick={handleUserMenuClick}>
+                  <Avatar
+                    sx={{
+                      bgcolor: '#7788EE',
+                      width: 40,
+                      height: 40,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      color: 'white',
+                    }}
+                  >
+                    <MenuIcon sx={{ color: 'white' }} />
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                anchorEl={userMenuAnchorEl}
+                open={Boolean(userMenuAnchorEl)}
+                onClose={handleUserMenuClose}
+              >
+                <MenuItem onClick={handleUserMenuClose}>Profile Settings</MenuItem>
+                <MenuItem onClick={handleUserMenuClose}>Resumes Saved</MenuItem>
+                <MenuItem onClick={handleUserMenuClose}>Jobs Applied</MenuItem>
+                <MenuItem onClick={handleUserMenuClose}>Payments</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <>
+              <GradientButton onClick={handleLoginClick}>Login</GradientButton>
+              <SignupButton onClick={handleSignUpClick}>Signup</SignupButton>
+            </>
+          )}
         </Toolbar>
       </AppBar>
-      <LoginPopup open={openLoginPopup} onClose={handleCloseLoginPopup} /> {/* Include LoginPopup */}
-      <SignUpPopup open={openSignUpPopup} onClose={handleCloseSignUpPopup} /> {/* Include SignUpPopup */}
+      <LoginPopup open={openLoginPopup} onClose={handleCloseLoginPopup} onLoginSuccess={handleLoginSuccess} />
+      <SignUpPopup open={openSignUpPopup} onClose={handleCloseSignUpPopup} />
     </>
   );
 }
