@@ -36,8 +36,8 @@ const SignupButton = styled(Button)(({ theme }) => ({
   transition: 'all 0.3s ease',
   marginLeft: theme.spacing(2), // Add margin to space out buttons
   '&:hover': {
-    background: 'white',
-    color: '#000',
+    background: '#7788EE',
+    color: '#fff',
     boxShadow: '0 0 10px rgba(173, 216, 230, 0.7)', // Light blue glow
   },
 }));

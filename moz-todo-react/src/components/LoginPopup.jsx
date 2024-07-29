@@ -21,8 +21,8 @@ const GoogleButton = styled(Button)(({ theme }) => ({
   alignItems: 'center',
   width: '100%', // Full width
   '&:hover': {
-    background: '#f1f3f4',
-    color: '#000',
+    background: '#7788EE',
+    color: '#fff',
   },
 }));
 
@@ -55,8 +55,8 @@ const LoginButton = styled(Button)(({ theme, loading }) => ({
   width: '100%', // Full width
   height: '48px', // Fixed height
   '&:hover': {
-    background: 'white',
-    color: '#000',
+    background: '#7788EE',
+    color: '#fff',
     '& .MuiCircularProgress-root': {
       color: 'white',
     },
@@ -84,8 +84,8 @@ const SignUpButton = styled(Button)(({ theme }) => ({
   transition: 'all 0.3s ease',
   height: '48px', // Fixed height
   '&:hover': {
-    background: '#fff',
-    color: 'black',
+    background: '#7788EE',
+    color: 'white',
     '& .MuiCircularProgress-root': {
       color: 'white',
     },

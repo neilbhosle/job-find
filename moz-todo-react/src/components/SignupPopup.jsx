@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, IconButton, Button, TextField, Typography, CircularProgress, Divider } from '@mui/material';
+import {
+  Dialog, DialogTitle, DialogContent, IconButton, Button, TextField, Typography,
+  CircularProgress, Divider, Checkbox, FormControlLabel
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import GoogleIcon from '@mui/icons-material/Google';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -23,8 +26,8 @@ const GoogleButton = styled(Button)(({ theme }) => ({
   alignItems: 'center',
   width: '100%', // Full width
   '&:hover': {
-    background: 'white',
-    color: '#000',
+    background: '#7788EE',
+    color: '#fff',
   },
 }));
 
@@ -58,8 +61,8 @@ const SignUpButton = styled(Button)(({ theme, loading }) => ({
   height: '48px', // Fixed height
   position: 'relative',
   '&:hover': {
-    background: '#fff',
-    color: 'black',
+    background: '#7788EE',
+    color: 'white',
     '& .MuiCircularProgress-root': {
       color: 'white',
     },
@@ -116,6 +119,13 @@ const FormContainer = styled('div')({
   boxSizing: 'border-box', // Include padding and border in the element's total width and height
 });
 
+const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
+  color: '#7788EE',
+  '&.Mui-checked': {
+    color: '#7788EE',
+  },
+}));
+
 function SignupPopup({ open, onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -123,6 +133,7 @@ function SignupPopup({ open, onClose }) {
   const [emailError, setEmailError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loginPopupOpen, setLoginPopupOpen] = useState(false); // State for login popup
+  const [receiveUpdates, setReceiveUpdates] = useState(false);
 
   useEffect(() => {
     if (email) {
@@ -165,9 +176,9 @@ function SignupPopup({ open, onClose }) {
     <>
       <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth sx={{ borderRadius: '5px', height: 'auto' }}>
         <DialogTitle>
-        <Typography variant="h6">
-          <center>Create a <span style={{ color: '#000' }}><b>new account</b></span>  to get started</center>
-        </Typography>
+          <Typography variant="h6">
+            <center>Create a <span style={{ color: '#000' }}><b>new account</b></span>  to get started</center>
+          </Typography>
           <CloseButton onClick={onClose} size="small">
             <CloseIcon />
           </CloseButton>
@@ -175,7 +186,7 @@ function SignupPopup({ open, onClose }) {
         <DialogContent>
           <SignupPopupContainer>
             <AnimationContainer>
-              <img src="/animation.gif" alt="Signup Animation" style={{ width: '160%', height: '120%' }} />
+              <img src="/animation.gif" alt="Signup Animation" style={{ width: '300%', height: '110%' }} />
             </AnimationContainer>
             <FormContainer>
               <GoogleButton startIcon={<GoogleIcon />}>
@@ -207,10 +218,17 @@ function SignupPopup({ open, onClose }) {
                   ),
                 }}
               />
+              <FormControlLabel
+                control={<StyledCheckbox checked={receiveUpdates} onChange={() => setReceiveUpdates(!receiveUpdates)} />}
+                label="I want to receive updates from Jobright about latest job offers"
+              />
               <SignUpButton onClick={handleSignup} loading={loading}>
                 {loading ? <CircularProgress size={24} /> : 'Sign Up'}
               </SignUpButton>
               <Divider sx={{ my: 2 }} />
+              <Typography align="center" variant="body2" sx={{ mt: 2, cursor: 'pointer'}}>
+                By continuing, you agree to the <b>JobDope Terms of Service</b> and the <b>Privacy Policy</b>.
+              </Typography>
               <Typography align="center" color="textSecondary" variant="body2" sx={{ mt: 2, cursor: 'pointer'}} onClick={handleOpenLogin}>
                 Already have an account? Log In
               </Typography>
