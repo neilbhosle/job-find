@@ -10,8 +10,8 @@ import { blueGrey } from '@mui/material/colors';
 
 // Styled components
 const GoogleButton = styled(Button)(({ theme }) => ({
-  background: 'white',
-  color: '#4285F4', // Google blue
+  background: 'black',
+  color: '#fff', // Google blue
   borderRadius: '5px',
   padding: '10px 20px',
   textTransform: 'none',
@@ -23,8 +23,8 @@ const GoogleButton = styled(Button)(({ theme }) => ({
   alignItems: 'center',
   width: '100%', // Full width
   '&:hover': {
-    background: '#f1f3f4',
-    color: '#4285F4',
+    background: 'white',
+    color: '#000',
   },
 }));
 
@@ -44,22 +44,22 @@ const StyledTextField = styled(TextField)(({ theme, error }) => ({
 }));
 
 const SignUpButton = styled(Button)(({ theme, loading }) => ({
-  background: 'transparent',
-  color: '#007bff',
+  background: 'black',
+  color: '#fff',
   borderRadius: '5px',
   padding: '10px 20px',
   textTransform: 'none',
   fontSize: '16px',
   fontWeight: 'bold',
-  border: '2px solid #007bff',
+  border: '2px solid #a9a9a9',
   marginTop: theme.spacing(2),
   width: '100%', // Full width
   transition: 'all 0.3s ease',
   height: '48px', // Fixed height
   position: 'relative',
   '&:hover': {
-    background: '#007bff',
-    color: 'white',
+    background: '#fff',
+    color: 'black',
     '& .MuiCircularProgress-root': {
       color: 'white',
     },
@@ -165,9 +165,9 @@ function SignupPopup({ open, onClose }) {
     <>
       <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth sx={{ borderRadius: '5px', height: 'auto' }}>
         <DialogTitle>
-          <Typography variant="h6">
-            <center>Create a new account</center>
-          </Typography>
+        <Typography variant="h6">
+          <center>Create a <span style={{ color: '#000' }}><b>new account</b></span>  to get started</center>
+        </Typography>
           <CloseButton onClick={onClose} size="small">
             <CloseIcon />
           </CloseButton>

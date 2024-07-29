@@ -8,8 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 // Styled components
 const GoogleButton = styled(Button)(({ theme }) => ({
-  background: 'white',
-  color: '#4285F4', // Google blue
+  background: 'black',
+  color: '#fff', // Google blue
   borderRadius: '5px', // Updated border radius
   padding: '10px 20px',
   textTransform: 'none',
@@ -22,7 +22,7 @@ const GoogleButton = styled(Button)(({ theme }) => ({
   width: '100%', // Full width
   '&:hover': {
     background: '#f1f3f4',
-    color: '#4285F4',
+    color: '#000',
   },
 }));
 
@@ -31,7 +31,7 @@ const StyledTextField = styled(TextField)(({ theme, error }) => ({
   '& .MuiOutlinedInput-root': {
     borderRadius: '5px', // Updated border radius
     backgroundColor: '#f5f5f5', // Greyish background
-    border: error ? '0.5px solid red' : '0.05px solid #a9a9a9',
+    border: error ? '0.5px solid red' : '0.05px solid #fff',
   },
   '& .MuiInputLabel-outlined': {
     color: error ? 'red' : '#a9a9a9',
@@ -42,21 +42,21 @@ const StyledTextField = styled(TextField)(({ theme, error }) => ({
 }));
 
 const LoginButton = styled(Button)(({ theme, loading }) => ({
-  background: 'transparent',
-  color: '#007bff',
+  background: 'black',
+  color: '#fff',
   borderRadius: '5px', // Updated border radius
   padding: '10px 20px',
   textTransform: 'none',
   fontSize: '16px',
   fontWeight: 'bold',
-  border: '2px solid #007bff',
+  border: '2px solid #a9a9a9',
   position: 'relative',
   transition: 'all 0.3s ease',
   width: '100%', // Full width
   height: '48px', // Fixed height
   '&:hover': {
-    background: '#007bff',
-    color: 'white',
+    background: 'white',
+    color: '#000',
     '& .MuiCircularProgress-root': {
       color: 'white',
     },
@@ -71,21 +71,21 @@ const LoginButton = styled(Button)(({ theme, loading }) => ({
 }));
 
 const SignUpButton = styled(Button)(({ theme }) => ({
-  background: 'transparent',
-  color: '#007bff',
+  background: 'black',
+  color: '#fff',
   borderRadius: '5px', // Updated border radius
   padding: '10px 20px',
   textTransform: 'none',
   fontSize: '16px',
   fontWeight: 'bold',
-  border: '2px solid #007bff',
+  border: '2px solid #a9a9a9',
   marginTop: theme.spacing(2),
   width: '100%', // Full width
   transition: 'all 0.3s ease',
   height: '48px', // Fixed height
   '&:hover': {
-    background: '#007bff',
-    color: 'white',
+    background: '#fff',
+    color: 'black',
     '& .MuiCircularProgress-root': {
       color: 'white',
     },
@@ -152,7 +152,7 @@ function LoginPopup({ open, onClose }) {
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth sx={{ borderRadius: '5px', height: 'auto' }}>
       <DialogTitle>
         <Typography variant="h6">
-          <center>Your next <span style={{ color: '#007bff' }}><b>Job</b></span> awaits you</center>
+          <center>Your next <span style={{ color: '#000' }}><b>Job</b></span> awaits you</center>
         </Typography>
         <CloseButton onClick={onClose} size="small">
           <CloseIcon />

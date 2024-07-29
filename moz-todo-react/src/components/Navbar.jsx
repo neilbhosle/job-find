@@ -8,7 +8,7 @@ import SignUpPopup from './SignupPopup';
 
 const GradientButton = styled(Button)(({ theme }) => ({
   background: 'transparent',
-  color: '#007bff', // Blue text color
+  color: '#000', // Blue text color
   borderRadius: '12px', // Less round
   padding: '10px 20px',
   textTransform: 'none',
@@ -19,14 +19,14 @@ const GradientButton = styled(Button)(({ theme }) => ({
   marginLeft: theme.spacing(2), // Add margin to space out buttons
   '&:hover': {
     background: 'transparent',
-    border: '2px solid #007bff',
-    color: '#007bff',
+    border: '2px solid #000',
+    color: '#000',
     boxShadow: '0 0 10px rgba(0, 123, 255, 0.5)', // Blue glow
   },
 }));
 
 const SignupButton = styled(Button)(({ theme }) => ({
-  background: '#007bff', // Blue background
+  background: '#000', // Blue background
   color: 'white',
   borderRadius: '12px', // Less round
   padding: '10px 20px',
@@ -37,14 +37,14 @@ const SignupButton = styled(Button)(({ theme }) => ({
   marginLeft: theme.spacing(2), // Add margin to space out buttons
   '&:hover': {
     background: 'white',
-    color: '#007bff',
+    color: '#000',
     boxShadow: '0 0 10px rgba(173, 216, 230, 0.7)', // Light blue glow
   },
 }));
 
 const FeaturesButton = styled(Button)(({ theme }) => ({
   background: 'transparent',
-  color: '#007bff', // Blue text color
+  color: '#000', // Blue text color
   borderRadius: '12px', // Less round
   padding: '10px 20px',
   textTransform: 'none',
@@ -55,8 +55,8 @@ const FeaturesButton = styled(Button)(({ theme }) => ({
   marginLeft: theme.spacing(2),
   '&:hover': {
     background: 'transparent',
-    border: '2px solid #007bff',
-    color: '#007bff',
+    border: '2px solid #000',
+    color: '#000',
     boxShadow: '0 0 10px rgba(0, 123, 255, 0.5)', // Blue glow
   },
 }));
