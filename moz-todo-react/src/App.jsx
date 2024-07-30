@@ -1,9 +1,7 @@
-import { useState } from 'react'
-import { CssBaseline } from '@mui/material'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react'
 import Navbar from './components/Navbar'
+import { Typography, Button, CssBaseline } from '@mui/material';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,7 +10,6 @@ function App() {
     <>
       <CssBaseline />
       <Navbar />
-      {/* Rest of your app content */}
     </>
   )
 }
