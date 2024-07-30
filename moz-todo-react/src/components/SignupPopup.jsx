@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, IconButton, Button, TextField, Typography,
-  CircularProgress, Divider, Checkbox, FormControlLabel
+  CircularProgress, Divider, Checkbox, FormControlLabel, Stepper, Step, StepLabel, Chip, Box
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import GoogleIcon from '@mui/icons-material/Google';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import LoginPopup from './LoginPopup'; // Import the LoginPopup component
-import { blueGrey } from '@mui/material/colors';
 
 // Styled components
+const FixedDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialog-paper': {
+    width: '600px',
+    height: '650px',
+    borderRadius: '10px',
+    overflow: 'hidden',
+  },
+}));
+
 const GoogleButton = styled(Button)(({ theme }) => ({
   background: '#212e7c',
-  color: '#fff', // Google blue
+  color: '#fff',
   borderRadius: '5px',
   padding: '10px 20px',
   textTransform: 'none',
@@ -24,7 +33,7 @@ const GoogleButton = styled(Button)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   display: 'flex',
   alignItems: 'center',
-  width: '100%', // Full width
+  width: '100%',
   '&:hover': {
     background: '#000',
     color: '#fff',
@@ -56,9 +65,9 @@ const SignUpButton = styled(Button)(({ theme, loading }) => ({
   fontWeight: 'bold',
   border: '2px solid #a9a9a9',
   marginTop: theme.spacing(2),
-  width: '100%', // Full width
+  width: '100%',
   transition: 'all 0.3s ease',
-  height: '48px', // Fixed height
+  height: '48px',
   position: 'relative',
   '&:hover': {
     background: '#000',
@@ -92,11 +101,9 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
 
 const SignupPopupContainer = styled('div')({
   display: 'flex',
-  width: '100%',
-  height: 'auto', // Auto height to fit content
-  maxWidth: '900px', // Increased width for more space
-  borderRadius: '5px',
-  overflow: 'hidden', // Hide any overflow
+  height: '100%',
+  borderRadius: '8px',
+  overflow: 'hidden',
 });
 
 const AnimationContainer = styled('div')({
@@ -105,8 +112,8 @@ const AnimationContainer = styled('div')({
   justifyContent: 'center',
   alignItems: 'center',
   overflow: 'hidden',
-  backgroundColor: '#f5f5f5', // Optional background color
-  padding: '20px', // Added padding for spacing
+  backgroundColor: '#f5f5f5',
+  padding: '20px',
 });
 
 const FormContainer = styled('div')({
@@ -115,8 +122,8 @@ const FormContainer = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: 'white',
-  borderRadius: '0 5px 5px 0', // Rounded corners for right side
-  boxSizing: 'border-box', // Include padding and border in the element's total width and height
+  borderRadius: '0 8px 8px 0',
+  boxSizing: 'border-box',
 });
 
 const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
@@ -126,14 +133,23 @@ const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
   },
 }));
 
+const steps = ['Account Creation', 'Job Search Preferences', 'Job Details'];
+
 function SignupPopup({ open, onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loginPopupOpen, setLoginPopupOpen] = useState(false); // State for login popup
+  const [loginPopupOpen, setLoginPopupOpen] = useState(false);
   const [receiveUpdates, setReceiveUpdates] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const [jobType, setJobType] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [location, setLocation] = useState('');
+  const [openToRemote, setOpenToRemote] = useState(false);
+  const [h1bSponsorship, setH1bSponsorship] = useState(false);
+  const [jobTitles, setJobTitles] = useState([]);
 
   useEffect(() => {
     if (email) {
@@ -151,16 +167,27 @@ function SignupPopup({ open, onClose }) {
       return;
     }
     setLoading(true);
-    // Simulate a signup request
     setTimeout(() => {
       setLoading(false);
-      onClose();
+      setActiveStep(1);
     }, 2000);
+  };
+
+  const handleNext = () => {
+    if (activeStep < steps.length - 1) {
+      setActiveStep(activeStep + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (activeStep > 0) {
+      setActiveStep(activeStep - 1);
+    }
   };
 
   const handleOpenLogin = () => {
     setLoginPopupOpen(true);
-    onClose(); // Close the signup popup
+    onClose();
   };
 
   const handleCloseLogin = () => {
@@ -172,11 +199,35 @@ function SignupPopup({ open, onClose }) {
     return regex.test(email);
   };
 
+  const handleAddJobTitle = () => {
+    if (jobTitle && !jobTitles.includes(jobTitle)) {
+      setJobTitles([...jobTitles, jobTitle]);
+      setJobTitle('');
+    }
+  };
+
+  const handleDeleteJobTitle = (titleToDelete) => () => {
+    setJobTitles((titles) => titles.filter((title) => title !== titleToDelete));
+  };
+
+  const isNextDisabled = () => {
+    if (activeStep === 0) {
+      return loading;
+    }
+    if (activeStep === 1) {
+      return jobType === '';
+    }
+    if (activeStep === 2) {
+      return jobTitles.length === 0 || location === '';
+    }
+    return false;
+  };
+
   return (
     <>
-      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth sx={{ borderRadius: '5px', height: 'auto' }}>
+      <FixedDialog open={open} onClose={onClose}>
         <DialogTitle>
-        <Typography variant="h6" component="div" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography variant="h6" component="div" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span>Create a <b>new account</b> to get started with</span>
             <img
               src="/jobdope-2.png"
@@ -189,60 +240,164 @@ function SignupPopup({ open, onClose }) {
           </CloseButton>
         </DialogTitle>
         <DialogContent>
-          <SignupPopupContainer>
-            <AnimationContainer>
-              <img src="/animation.jpg" alt="Signup Animation" style={{ width: '140%', height: '110%' }} />
-            </AnimationContainer>
-            <FormContainer>
-            <GoogleButton startIcon={<img src="/g.png" alt="Google" style={{ height: '24px', width: '24px', marginRight: '8px' }} />}>
-                Sign in with Google
-            </GoogleButton>
-              <Divider sx={{ my: 2 }} />
-              <Typography align="center">OR</Typography>
-              <br />
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label, index) => (
+              <Step key={label}>
+                <StepLabel
+                  StepIconProps={{
+                    sx: {
+                      color: activeStep === index ? '#000' : '#C0C0C0',
+                    },
+                  }}
+                  sx={{
+                    '& .MuiStepLabel-label': {
+                      color: activeStep === index ? '#000' : '#C0C0C0',
+                    },
+                  }}
+                >
+                  {label}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+
+          {activeStep === 0 && (
+            <SignupPopupContainer>
+              <AnimationContainer>
+                <img src="/animation.jpg" alt="Signup Animation" style={{ width: '140%', height: '110%' }} />
+              </AnimationContainer>
+              <FormContainer>
+                <GoogleButton startIcon={<img src="/g.png" alt="Google" style={{ width: '24px', height: '24px' }} />} onClick={handleOpenLogin}>
+                  Sign up with Google
+                </GoogleButton>
+
+                <StyledTextField
+                  label="Email Address"
+                  variant="outlined"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  error={emailError}
+                  helperText={emailError ? 'Invalid email address' : ''}
+                />
+
+                <StyledTextField
+                  label="Password"
+                  variant="outlined"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <EyeButton onClick={handleTogglePasswordVisibility}>
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </EyeButton>
+                    ),
+                  }}
+                />
+
+                <FormControlLabel
+                  control={
+                    <StyledCheckbox
+                      checked={receiveUpdates}
+                      onChange={(e) => setReceiveUpdates(e.target.checked)}
+                    />
+                  }
+                  label="Receive updates and offers"
+                />
+
+                <SignUpButton onClick={handleSignup} loading={loading} disabled={isNextDisabled()}>
+                  {loading ? <CircularProgress size={24} /> : 'Sign Up'}
+                </SignUpButton>
+
+                <Typography variant="body2" align="center" style={{ marginTop: '16px' }}>
+                  Already have an account? <Button onClick={handleOpenLogin}>Log in</Button>
+                </Typography>
+              </FormContainer>
+            </SignupPopupContainer>
+          )}
+
+          {activeStep === 1 && (
+            <Box>
+              <Typography variant="h6" style={{ marginBottom: '16px' }}>Job Search Preferences</Typography>
               <StyledTextField
-                fullWidth
-                label="Email Address"
+                label="Preferred Job Type"
                 variant="outlined"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={emailError}
+                value={jobType}
+                onChange={(e) => setJobType(e.target.value)}
               />
               <StyledTextField
-                fullWidth
-                label="Password"
-                type={showPassword ? 'text' : 'password'}
+                label="Preferred Job Location"
                 variant="outlined"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+              <FormControlLabel
+                control={
+                  <StyledCheckbox
+                    checked={openToRemote}
+                    onChange={(e) => setOpenToRemote(e.target.checked)}
+                  />
+                }
+                label="Open to remote positions"
+              />
+              <FormControlLabel
+                control={
+                  <StyledCheckbox
+                    checked={h1bSponsorship}
+                    onChange={(e) => setH1bSponsorship(e.target.checked)}
+                  />
+                }
+                label="Need H-1B sponsorship"
+              />
+              <Button variant="contained" color="primary" onClick={handleNext} disabled={isNextDisabled()} style={{ marginTop: '16px' }}>
+                Next
+              </Button>
+            </Box>
+          )}
+
+          {activeStep === 2 && (
+            <Box>
+              <Typography variant="h6" style={{ marginBottom: '16px' }}>Job Details</Typography>
+              <StyledTextField
+                label="Job Title"
+                variant="outlined"
+                value={jobTitle}
+                onChange={(e) => setJobTitle(e.target.value)}
                 InputProps={{
                   endAdornment: (
-                    <EyeButton onClick={handleTogglePasswordVisibility}>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </EyeButton>
+                    <IconButton onClick={handleAddJobTitle}>
+                      <AddIcon />
+                    </IconButton>
                   ),
                 }}
               />
-              <FormControlLabel
-                control={<StyledCheckbox checked={receiveUpdates} onChange={() => setReceiveUpdates(!receiveUpdates)} />}
-                label="I want to receive updates from Jobdope about latest job offers"
+              <Box>
+                {jobTitles.map((title) => (
+                  <Chip
+                    key={title}
+                    label={title}
+                    onDelete={handleDeleteJobTitle(title)}
+                    style={{ margin: '4px' }}
+                  />
+                ))}
+              </Box>
+              <StyledTextField
+                label="Job Location"
+                variant="outlined"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
               />
-              <SignUpButton onClick={handleSignup} loading={loading}>
-                {loading ? <CircularProgress size={24} /> : 'Sign Up'}
-              </SignUpButton>
-              <Divider sx={{ my: 2 }} />
-              <Typography align="center" variant="body2" sx={{ mt: 2, cursor: 'pointer'}}>
-                By continuing, you agree to the <b>JobDope Terms of Service</b> and the <b>Privacy Policy</b>.
-              </Typography>
-              <Typography align="center" color="textSecondary" variant="body2" sx={{ mt: 2, cursor: 'pointer'}} onClick={handleOpenLogin}>
-                Already have an account? Log In
-              </Typography>
-            </FormContainer>
-          </SignupPopupContainer>
+              <Button variant="contained" color="primary" onClick={handleNext} disabled={isNextDisabled()} style={{ marginTop: '16px' }}>
+                Finish
+              </Button>
+              <Button variant="outlined" onClick={handleBack} style={{ marginLeft: '16px', marginTop: '16px' }}>
+                Back
+              </Button>
+            </Box>
+          )}
         </DialogContent>
-      </Dialog>
+      </FixedDialog>
 
-      {/* Login Popup */}
       <LoginPopup open={loginPopupOpen} onClose={handleCloseLogin} />
     </>
   );
