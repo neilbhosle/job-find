@@ -1,26 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, IconButton, Button, TextField, Typography,
   CircularProgress, Divider, Checkbox, FormControlLabel, Stepper, Step, StepLabel, Chip, Box
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import GoogleIcon from '@mui/icons-material/Google';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import LoginPopup from './LoginPopup'; // Import the LoginPopup component
 
 // Styled components
-const FixedDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialog-paper': {
-    width: '600px',
-    height: '650px',
-    borderRadius: '10px',
-    overflow: 'hidden',
-  },
-}));
-
 const GoogleButton = styled(Button)(({ theme }) => ({
   background: '#212e7c',
   color: '#fff',
@@ -44,7 +38,7 @@ const StyledTextField = styled(TextField)(({ theme, error }) => ({
   marginBottom: theme.spacing(2),
   '& .MuiOutlinedInput-root': {
     borderRadius: '5px',
-    backgroundColor: '#eaedff',
+    backgroundColor: '#e2e6ff',
     border: error ? '0.5px solid red' : '0.05px solid #a9a9a9',
   },
   '& .MuiInputLabel-outlined': {
@@ -101,8 +95,10 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
 
 const SignupPopupContainer = styled('div')({
   display: 'flex',
-  height: '100%',
-  borderRadius: '8px',
+  width: '100%',
+  height: 'auto',
+  maxWidth: '900px',
+  borderRadius: '5px',
   overflow: 'hidden',
 });
 
@@ -122,14 +118,14 @@ const FormContainer = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: 'white',
-  borderRadius: '0 8px 8px 0',
+  borderRadius: '0 5px 5px 0',
   boxSizing: 'border-box',
 });
 
 const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
   color: '#7788EE',
   '&.Mui-checked': {
-    color: '#212e7c',
+    color: '#7788EE',
   },
 }));
 
@@ -141,7 +137,7 @@ function SignupPopup({ open, onClose }) {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loginPopupOpen, setLoginPopupOpen] = useState(false);
+  const [loginPopupOpen, setLoginPopupOpen] = useState(false); 
   const [receiveUpdates, setReceiveUpdates] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [jobType, setJobType] = useState('');
@@ -150,12 +146,6 @@ function SignupPopup({ open, onClose }) {
   const [openToRemote, setOpenToRemote] = useState(false);
   const [h1bSponsorship, setH1bSponsorship] = useState(false);
   const [jobTitles, setJobTitles] = useState([]);
-
-  useEffect(() => {
-    if (email) {
-      setEmailError(!validateEmail(email));
-    }
-  }, [email]);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -225,178 +215,290 @@ function SignupPopup({ open, onClose }) {
 
   return (
     <>
-      <FixedDialog open={open} onClose={onClose}>
+      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth sx={{ borderRadius: '5px', height: 'auto' }}>
         <DialogTitle>
-          <Typography variant="h6" component="div" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span>Create a <b>new account</b> to get started with</span>
-            <img
-              src="/jobdope-2.png"
-              alt="Jobdope"
-              style={{ height: '40px', marginLeft: '10px' }}
-            />
-          </Typography>
+        <Typography variant="h6" component="div" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span>Create a <b>new account</b> to get started with</span>
+          <img
+            src="/jobdope-2.png"
+            alt="Jobdope"
+            style={{ height: '40px', marginLeft: '10px' }}
+          />
+        </Typography>
           <CloseButton onClick={onClose} size="small">
             <CloseIcon />
           </CloseButton>
         </DialogTitle>
         <DialogContent>
-          <Stepper activeStep={activeStep} alternativeLabel>
-            {steps.map((label, index) => (
-              <Step key={label}>
-                <StepLabel
-                  StepIconProps={{
-                    sx: {
-                      color: activeStep === index ? '#000' : '#C0C0C0',
-                    },
-                  }}
-                  sx={{
-                    '& .MuiStepLabel-label': {
-                      color: activeStep === index ? '#000' : '#C0C0C0',
-                    },
-                  }}
-                >
-                  {label}
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+        <Stepper activeStep={activeStep} alternativeLabel>
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel
+              StepIconProps={{
+                sx: {
+                  color: activeStep === index ? '#7788EE' : '#C0C0C0',
+                },
+              }}
+              sx={{
+                '& .MuiStepLabel-label': {
+                  color: activeStep === index ? '#7788EE' : '#C0C0C0',
+                },
+              }}
+            >
+              {label}
+            </StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+
 
           {activeStep === 0 && (
             <SignupPopupContainer>
               <AnimationContainer>
-                <img src="/animation.jpg" alt="Signup Animation" style={{ width: '140%', height: '110%' }} />
+                <img src="/animation.jpg" alt="Signup Animation" style={{ width: '130%', height: '110%' }} />
               </AnimationContainer>
               <FormContainer>
-                <GoogleButton startIcon={<img src="/g.png" alt="Google" style={{ width: '24px', height: '24px' }} />} onClick={handleOpenLogin}>
-                  Sign up with Google
-                </GoogleButton>
-
+              <GoogleButton startIcon={<img src="/g.png" alt="Google" style={{ height: '24px', width: '24px', marginRight: '8px' }} />}>
+                Sign in with Google
+              </GoogleButton>
+                <Divider sx={{ my: 2 }} />
+                <Typography align="center">OR</Typography>
+                <br />
                 <StyledTextField
+                  fullWidth
                   label="Email Address"
                   variant="outlined"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   error={emailError}
-                  helperText={emailError ? 'Invalid email address' : ''}
                 />
-
                 <StyledTextField
+                  fullWidth
                   label="Password"
-                  variant="outlined"
                   type={showPassword ? 'text' : 'password'}
+                  variant="outlined"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   InputProps={{
                     endAdornment: (
                       <EyeButton onClick={handleTogglePasswordVisibility}>
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
                       </EyeButton>
                     ),
                   }}
                 />
-
                 <FormControlLabel
-                  control={
-                    <StyledCheckbox
-                      checked={receiveUpdates}
-                      onChange={(e) => setReceiveUpdates(e.target.checked)}
-                    />
-                  }
-                  label="Receive updates and offers"
+                  control={<StyledCheckbox checked={receiveUpdates} onChange={() => setReceiveUpdates(!receiveUpdates)} />}
+                  label="I want to receive updates from Jobdope about latest job offers"
                 />
-
-                <SignUpButton onClick={handleSignup} loading={loading} disabled={isNextDisabled()}>
+                <SignUpButton onClick={handleSignup} loading={loading}>
                   {loading ? <CircularProgress size={24} /> : 'Sign Up'}
                 </SignUpButton>
-
-                <Typography variant="body2" align="center" style={{ marginTop: '16px' }}>
-                  Already have an account? <Button onClick={handleOpenLogin}>Log in</Button>
+                <Divider sx={{ my: 2 }} />
+                <Typography align="center" variant="body2" sx={{ mt: 2, cursor: 'pointer' }}>
+                  By continuing, you agree to the <b>JobDope Terms of Service</b> and the <b>Privacy Policy</b>.
+                </Typography>
+                <Typography align="center" color="textSecondary" variant="body2" sx={{ mt: 2, cursor: 'pointer' }} onClick={handleOpenLogin}>
+                  Already have an account? Log In
                 </Typography>
               </FormContainer>
             </SignupPopupContainer>
           )}
-
           {activeStep === 1 && (
-            <Box>
-              <Typography variant="h6" style={{ marginBottom: '16px' }}>Job Search Preferences</Typography>
-              <StyledTextField
-                label="Preferred Job Type"
-                variant="outlined"
-                value={jobType}
-                onChange={(e) => setJobType(e.target.value)}
-              />
-              <StyledTextField
-                label="Preferred Job Location"
-                variant="outlined"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
-              <FormControlLabel
-                control={
-                  <StyledCheckbox
-                    checked={openToRemote}
-                    onChange={(e) => setOpenToRemote(e.target.checked)}
-                  />
-                }
-                label="Open to remote positions"
-              />
-              <FormControlLabel
-                control={
-                  <StyledCheckbox
-                    checked={h1bSponsorship}
-                    onChange={(e) => setH1bSponsorship(e.target.checked)}
-                  />
-                }
-                label="Need H-1B sponsorship"
-              />
-              <Button variant="contained" color="primary" onClick={handleNext} disabled={isNextDisabled()} style={{ marginTop: '16px' }}>
-                Next
-              </Button>
-            </Box>
+            <div>
+              <Typography variant="h6" align="center">Job Search Preferences</Typography>
+              <Box display="flex" justifyContent="center" mt={2}>
+                <Button
+                  variant={jobType === 'rush' ? 'contained' : 'outlined'}
+                  startIcon={<DirectionsRunIcon />}
+                  onClick={() => setJobType('rush')}
+                  sx={{
+                    marginRight: 2,
+                    borderRadius: '0', // Square shape
+                    borderColor: '#212e7c',
+                    color: jobType === 'rush' ? '#fff' : '#212e7c',
+                    backgroundColor: jobType === 'rush' ? '#212e7c' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: jobType === 'rush' ? '#6678CC' : '#212e7c',
+                      color: '#fff',
+                    },
+                  }}
+                >
+                  I'm looking for jobs in a rush
+                </Button>
+                <Button
+                  variant={jobType === 'no-rush' ? 'contained' : 'outlined'}
+                  startIcon={<LocalCafeIcon />}
+                  onClick={() => setJobType('no-rush')}
+                  sx={{
+                    borderRadius: '0', // Square shape
+                    borderColor: '#212e7c',
+                    color: jobType === 'no-rush' ? '#fff' : '#212e7c',
+                    backgroundColor: jobType === 'no-rush' ? '#212e7c' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: jobType === 'no-rush' ? '#6678CC' : '#212e7c',
+                      color: '#fff',
+                    },
+                  }}
+                >
+                  I'm open to new opportunities, no rush
+                </Button>
+              </Box>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                <Button
+                  variant="contained"
+                  onClick={handleBack}
+                  sx={{
+                    borderRadius: '0',
+                    borderColor: '#212e7c',
+                    backgroundColor: '#212e7c',
+                    '&:hover': {
+                      backgroundColor: '#6678CC',
+                      color: '#fff',
+                    },
+                  }}
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleNext}
+                  disabled={isNextDisabled()}
+                  sx={{
+                    borderRadius: '0',
+                    borderColor: '#212e7c',
+                    backgroundColor: '#212e7c',
+                    '&:hover': {
+                      backgroundColor: '#6678CC',
+                      color: '#fff',
+                    },
+                  }}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
           )}
 
           {activeStep === 2 && (
-            <Box>
-              <Typography variant="h6" style={{ marginBottom: '16px' }}>Job Details</Typography>
-              <StyledTextField
-                label="Job Title"
-                variant="outlined"
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton onClick={handleAddJobTitle}>
-                      <AddIcon />
-                    </IconButton>
-                  ),
-                }}
-              />
-              <Box>
+            <div>
+              <Typography variant="h6" align="center">Job Details</Typography>
+              <Box display="flex" alignItems="center" mt={2}>
+                <StyledTextField
+                  label="Job Title"
+                  variant="outlined"
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                  sx={{ width: '40%', marginRight: 1 }}
+                />
+                <IconButton
+                  color="secondary"
+                  onClick={handleAddJobTitle}
+                  sx={{
+                    color: '#212e7c',
+                    '&:hover': {
+                      color: '#6678CC',
+                    },
+                  }}
+                >
+                  <AddIcon />
+                </IconButton>
+              </Box>
+              <Box mt={2} display="flex" flexWrap="wrap">
                 {jobTitles.map((title) => (
                   <Chip
                     key={title}
                     label={title}
                     onDelete={handleDeleteJobTitle(title)}
-                    style={{ margin: '4px' }}
+                    deleteIcon={<DeleteIcon />}
+                    sx={{
+                      marginRight: 1,
+                      marginBottom: 1,
+                      backgroundColor: '#7788EE',
+                      color: '#fff',
+                      '& .MuiChip-deleteIcon': {
+                        color: '#fff',
+                      },
+                    }}
                   />
                 ))}
               </Box>
-              <StyledTextField
-                label="Job Location"
-                variant="outlined"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
+              <Box display="flex" alignItems="center" mt={2}>
+                <StyledTextField
+                  label="Location"
+                  variant="outlined"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  sx={{ width: '40%', marginRight: 2 }}
+                />
+                <FormControlLabel
+                  control={<StyledCheckbox checked={openToRemote} onChange={() => setOpenToRemote(!openToRemote)} />}
+                  label="Open to Remote"
+                />
+              </Box>
+              <Typography variant="body1" mt={2}>
+                Job Type
+              </Typography>
+              <Box display="flex" alignItems="center" mt={1}>
+                <FormControlLabel
+                  control={<StyledCheckbox checked={jobType === 'full-time'} onChange={() => setJobType('full-time')} />}
+                  label="Full-time"
+                />
+                <FormControlLabel
+                  control={<StyledCheckbox checked={jobType === 'contract'} onChange={() => setJobType('contract')} />}
+                  label="Contract"
+                />
+                <FormControlLabel
+                  control={<StyledCheckbox checked={jobType === 'part-time'} onChange={() => setJobType('part-time')} />}
+                  label="Part-time"
+                />
+                <FormControlLabel
+                  control={<StyledCheckbox checked={jobType === 'internship'} onChange={() => setJobType('internship')} />}
+                  label="Internship"
+                />
+              </Box>
+              <FormControlLabel
+                control={<StyledCheckbox checked={h1bSponsorship} onChange={() => setH1bSponsorship(!h1bSponsorship)} />}
+                label="H1B Sponsorship"
+                sx={{ mt: 2 }}
               />
-              <Button variant="contained" color="primary" onClick={handleNext} disabled={isNextDisabled()} style={{ marginTop: '16px' }}>
-                Finish
-              </Button>
-              <Button variant="outlined" onClick={handleBack} style={{ marginLeft: '16px', marginTop: '16px' }}>
-                Back
-              </Button>
-            </Box>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                <Button
+                  variant="contained"
+                  onClick={handleBack}
+                  sx={{
+                    borderRadius: '5px', // Square shape
+                    borderColor: '#212e7c',
+                    backgroundColor: '#212e7c',
+                    '&:hover': {
+                      backgroundColor: '#6678CC',
+                      color: '#fff',
+                    },
+                  }}
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={onClose}
+                  sx={{
+                    borderRadius: '5px', // Square shape
+                    borderColor: '#212e7c',
+                    backgroundColor: '#212e7c',
+                    '&:hover': {
+                      backgroundColor: '#6678CC',
+                      color: '#fff',
+                    },
+                  }}
+                >
+                  Finish
+                </Button>
+              </div>
+            </div>
           )}
+
         </DialogContent>
-      </FixedDialog>
+      </Dialog>
 
       <LoginPopup open={loginPopupOpen} onClose={handleCloseLogin} />
     </>
