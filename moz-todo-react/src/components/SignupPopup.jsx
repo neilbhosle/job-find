@@ -12,9 +12,8 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import LoginPopup from './LoginPopup'; // Import the LoginPopup component
+import LoginPopup from './LoginPopup'; 
 
-// Styled components
 const GoogleButton = styled(Button)(({ theme }) => ({
   background: '#212e7c',
   color: '#fff',

@@ -5,11 +5,10 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
-import LoginPopup from './LoginPopup'; 
-import SignUpPopup from './SignupPopup'; 
+import LoginPopup from './LoginPopup';
+import SignUpPopup from './SignupPopup';
 import { useTheme } from '@mui/material/styles';
 
-// Styled components
 const GradientButton = styled(Button)(({ theme }) => ({
   background: 'transparent',
   color: '#000',
@@ -80,9 +79,9 @@ function Navbar() {
   const [openLoginPopup, setOpenLoginPopup] = useState(false);
   const [openSignUpPopup, setOpenSignUpPopup] = useState(false);
   const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false); // State to manage login status
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const theme = useTheme(); // Access theme for color
+  const theme = useTheme();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -122,7 +121,7 @@ function Navbar() {
 
   const handleLoginSuccess = () => {
     setLoggedIn(true);
-    handleCloseLoginPopup(); // Close login popup
+    handleCloseLoginPopup();
   };
 
   const handleLogout = () => {
