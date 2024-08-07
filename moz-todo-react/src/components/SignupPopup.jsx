@@ -306,8 +306,9 @@ function SignupPopup({ open, onClose }) {
           )}
           {activeStep === 1 && (
             <div>
+              <br />
               <Typography variant="h6" align="center">Job Search Preferences</Typography>
-              <Box display="flex" justifyContent="center" mt={2}>
+              <Box display="flex" justifyContent="center" mt={5}>
                 <Button
                   variant={jobType === 'rush' ? 'contained' : 'outlined'}
                   startIcon={<DirectionsRunIcon />}
@@ -316,10 +317,10 @@ function SignupPopup({ open, onClose }) {
                     marginRight: 2,
                     borderRadius: '0', // Square shape
                     borderColor: '#212e7c',
-                    color: jobType === 'rush' ? '#fff' : '#212e7c',
+                    color: jobType === 'rush' ? '#fff' : '#7788ee',
                     backgroundColor: jobType === 'rush' ? '#212e7c' : 'transparent',
                     '&:hover': {
-                      backgroundColor: jobType === 'rush' ? '#6678CC' : '#212e7c',
+                      backgroundColor: jobType === 'rush' ? '#212e7c' : '#212e7c',
                       color: '#fff',
                     },
                   }}
@@ -333,15 +334,15 @@ function SignupPopup({ open, onClose }) {
                   sx={{
                     borderRadius: '0', // Square shape
                     borderColor: '#212e7c',
-                    color: jobType === 'no-rush' ? '#fff' : '#212e7c',
+                    color: jobType === 'no-rush' ? '#fff' : '#7788ee',
                     backgroundColor: jobType === 'no-rush' ? '#212e7c' : 'transparent',
                     '&:hover': {
-                      backgroundColor: jobType === 'no-rush' ? '#6678CC' : '#212e7c',
+                      backgroundColor: jobType === 'no-rush' ? '#212e7c' : '#212e7c',
                       color: '#fff',
                     },
                   }}
                 >
-                  I'm open to new opportunities, no rush
+                  I'm in a No rush situation right now
                 </Button>
               </Box>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
@@ -353,7 +354,7 @@ function SignupPopup({ open, onClose }) {
                     borderColor: '#212e7c',
                     backgroundColor: '#212e7c',
                     '&:hover': {
-                      backgroundColor: '#6678CC',
+                      backgroundColor: '#000',
                       color: '#fff',
                     },
                   }}
@@ -369,7 +370,7 @@ function SignupPopup({ open, onClose }) {
                     borderColor: '#212e7c',
                     backgroundColor: '#212e7c',
                     '&:hover': {
-                      backgroundColor: '#6678CC',
+                      backgroundColor: '#000',
                       color: '#fff',
                     },
                   }}
@@ -471,7 +472,7 @@ function SignupPopup({ open, onClose }) {
                     borderColor: '#212e7c',
                     backgroundColor: '#212e7c',
                     '&:hover': {
-                      backgroundColor: '#6678CC',
+                      backgroundColor: '#000',
                       color: '#fff',
                     },
                   }}
@@ -486,7 +487,7 @@ function SignupPopup({ open, onClose }) {
                     borderColor: '#212e7c',
                     backgroundColor: '#212e7c',
                     '&:hover': {
-                      backgroundColor: '#6678CC',
+                      backgroundColor: '#000',
                       color: '#fff',
                     },
                   }}
