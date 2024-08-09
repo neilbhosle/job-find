@@ -5,6 +5,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import LoginPopup from './LoginPopup';
 import SignUpPopup from './SignupPopup';
 import { useTheme } from '@mui/material/styles';
@@ -82,6 +83,7 @@ function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const theme = useTheme();
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -128,6 +130,10 @@ function Navbar() {
     setLoggedIn(false);
   };
 
+  const handleNavigateToResumeAI = () => {
+    navigate('/resume-ai'); // Navigate to the Resume AI page
+  };
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -148,7 +154,8 @@ function Navbar() {
           <img
             src="/jobdope-2.png"
             alt="Jobdope"
-            style={{ height: '60px', marginRight: '20px' }}
+            onClick={() => navigate('/')}
+            style={{ height: '60px', marginRight: '20px', cursor: 'pointer'}}
           />
           <FeaturesButton
             color="inherit"
@@ -167,7 +174,7 @@ function Navbar() {
             <CustomMenuItem onClick={handleClose}>5-Second Resume</CustomMenuItem>
             <CustomMenuItem onClick={handleClose}>Resume Customization</CustomMenuItem>
           </CustomMenu>
-          <GradientButton>Resume AI</GradientButton>
+          <GradientButton onClick={handleNavigateToResumeAI}>Resume AI</GradientButton>
           <GradientButton>About Us</GradientButton>
           <GradientButton>Blog</GradientButton>
           <GradientButton>Pricing</GradientButton>
