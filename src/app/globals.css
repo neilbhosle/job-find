@@ -1,0 +1,129 @@
+@import url("/fonts/fonts.css");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary outline-theme-blue inline-block rounded-full px-6 py-2 font-semibold shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105;
+  }
+  .text-primary {
+    @apply bg-gradient-to-r from-[color:var(--theme-blue)] to-[color:var(--theme-gray)] bg-clip-text text-transparent !important;
+  }
+  .bg-primary {
+    @apply bg-gradient-to-r from-[color:var(--theme-blue)] to-[color:var(--theme-gray)] text-white;
+  }
+  .outline-theme-blue {
+    @apply hover:opacity-90 hover:outline-[color:var(--theme-blue)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--theme-blue)] transition-all duration-300 ease-in-out;
+  }
+  .outline-theme-gray {
+    @apply hover:opacity-90 hover:outline-[color:var(--theme-gray)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--theme-gray)] transition-all duration-300 ease-in-out;
+  }
+  .within-outline-theme-blue {
+    @apply focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[color:var(--theme-blue)] hover:opacity-90 hover:outline-[color:var(--theme-blue)] transition-all duration-300 ease-in-out;
+  }
+}
+
+:root {
+  --theme-blue: #7788EE;
+  --theme-gray: #212e7c;
+  --theme-white: #f5f5f5;
+  --theme-light-blue: #a8b4ff;
+  --theme-dark-blue: #3f4b8b;
+  --theme-accent: #ff7b54;
+  --top-nav-bar-height: 3.5rem;
+  --resume-control-bar-height: 3rem;
+  --resume-padding: 1.5rem;
+}
+
+/* Enhanced custom styles */
+body {
+  @apply bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold text-[color:var(--theme-blue)];
+}
+
+h1 {
+  @apply text-4xl md:text-5xl lg:text-6xl leading-tight;
+}
+
+h2 {
+  @apply text-3xl md:text-4xl lg:text-5xl;
+}
+
+a {
+  @apply text-[color:var(--theme-blue)] hover:text-[color:var(--theme-white)] transition-colors duration-300;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-all duration-300 hover:scale-105;
+}
+
+.input {
+  @apply border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[color:var(--theme-blue)] transition-all duration-300;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-md font-semibold transition-all duration-300;
+}
+
+.btn-secondary {
+  @apply bg-[color:var(--theme-gray)] text-white hover:bg-[color:var(--theme-dark-blue)];
+}
+
+.btn-accent {
+  @apply bg-[color:var(--theme-white)] text-white hover:bg-opacity-90 hover:scale-105;
+}
+
+.section {
+  @apply my-8 p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300;
+}
+
+.divider {
+  @apply my-6 border-t border-gray-200;
+}
+
+/* New animated elements */
+.animate-gradient {
+  background: linear-gradient(270deg, var(--theme-blue), var(--theme-gray), var(--theme-light-blue));
+  background-size: 600% 600%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--theme-blue) 0%, var(--theme-light-blue) 50%, var(--theme-blue) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
