@@ -1,4 +1,4 @@
-// File: /Users/rishabhsharma/Documents/GitHub/job-find/jobdope/src/app/resume-parser/page.tsx
+// File: /Users/rishabhsharma/Documents/GitHub/job-find/src/app/resume-parser/page.tsx
 import * as entry from '../../../../src/app/resume-parser/page.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
