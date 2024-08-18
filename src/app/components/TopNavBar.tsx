@@ -44,17 +44,17 @@ export const TopNavBar = () => {
               aria-label="Site Nav Bar"
               className="flex items-center gap-8 text-md font-bold"
             >
+            <Link
+                className="rounded-md px-1.5 py-2 text-black bg-transparent transition-all duration-300 ease-in-out hover:scale-105 hover:text-[#7788EE]"
+                href="/resume-parser"
+              >
+                ResumeAI
+              </Link>
               <Link
                 className="rounded-md px-1.5 py-2 text-black bg-transparent transition-all duration-300 ease-in-out hover:scale-105 hover:text-[#7788EE]"
                 href="/resume-builder"
               >
                 Resume Builder
-              </Link>
-              <Link
-                className="rounded-md px-1.5 py-2 text-black bg-transparent transition-all duration-300 ease-in-out hover:scale-105 hover:text-[#7788EE]"
-                href="/resume-parser"
-              >
-                ResumeAI
               </Link>
               <Link
                 className="rounded-md px-1.5 py-2 text-black bg-transparent transition-all duration-300 ease-in-out hover:scale-105 hover:text-[#7788EE]"

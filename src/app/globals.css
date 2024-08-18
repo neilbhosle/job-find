@@ -127,3 +127,8 @@ a {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+.job-description-text {
+  color: #212e7c;
+  font-weight: bold;
+}

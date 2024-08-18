@@ -6,15 +6,18 @@ import { groupTextItemsIntoLines } from "lib/parse-resume-from-pdf/group-text-it
 import { groupLinesIntoSections } from "lib/parse-resume-from-pdf/group-lines-into-sections";
 import { extractResumeFromSections } from "lib/parse-resume-from-pdf/extract-resume-from-sections";
 import { ResumeDropzone } from "components/ResumeDropzone";
-import { ResumeTable } from "resume-parser/ResumeTable";
 import { FlexboxSpacer } from "components/FlexboxSpacer";
 import { Heading, Paragraph } from "components/documentation";
+import { ResumeJsonDisplay } from "resume-parser/ResumeJsonDisplay";
 
 const defaultFileUrl = "";
 
 export default function ResumeParser() {
   const [fileUrl, setFileUrl] = useState(defaultFileUrl);
   const [textItems, setTextItems] = useState<TextItems>([]);
+  const [jobDescription, setJobDescription] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  
   const lines = groupTextItemsIntoLines(textItems || []);
   const sections = groupLinesIntoSections(lines);
   const resume = extractResumeFromSections(sections);
@@ -39,14 +42,18 @@ export default function ResumeParser() {
       <div className="grid md:grid-cols-6">
         <div className="flex justify-center px-2 md:col-span-3 md:h-[calc(100vh-var(--top-nav-bar-height))] md:justify-end">
           <section className="mt-5 grow px-4 md:max-w-[600px] md:px-0">
-            <div className="aspect-h-[9.5] aspect-w-7">
-              {fileUrl ? (
-                <iframe src={`${fileUrl}#navpanes=0`} className="h-full w-full" />
-              ) : (
-                <div className="h-full w-full flex items-center justify-center text-gray-500">
-                  Upload a resume to view it here
-                </div>
-              )}
+            <div className="h-full w-full">
+              <textarea
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="Enter job description here to get started."
+                className={`w-full p-4 border-2 rounded-md resize-none focus:outline-none ${
+                  isFocused ? "border-purple-500" : "border-gray-300"
+                }`}
+                style={{ height: "840px" }}  // Adjust the height here
+              />
             </div>
           </section>
           <FlexboxSpacer maxWidth={45} className="hidden md:block" />
@@ -59,6 +66,7 @@ export default function ResumeParser() {
             </Heading>
             <Paragraph smallMarginTop={true}>
               Upload your resume to see how well it can be parsed. The parsing results will be displayed in the table below.
+              This is just to give you an idea how your parsed resume will look like.
             </Paragraph>
             <div className="mt-3">
               <ResumeDropzone
@@ -71,7 +79,8 @@ export default function ResumeParser() {
             <Heading level={2} className="!mt-[1.2em]">
               Resume Parsing Results
             </Heading>
-            <ResumeTable resume={resume} />
+            {/* <ResumeTable resume={resume} /> */}
+            <ResumeJsonDisplay resume={resume} />
             <div className="pt-24" />
           </section>
         </div>

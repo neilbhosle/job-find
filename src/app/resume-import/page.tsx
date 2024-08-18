@@ -1,93 +1,90 @@
 "use client";
-import { getHasUsedAppBefore } from "lib/redux/local-storage";
-import { ResumeDropzone } from "components/ResumeDropzone";
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { readPdf } from "lib/parse-resume-from-pdf/read-pdf";
+import type { TextItems } from "lib/parse-resume-from-pdf/types";
+import { groupTextItemsIntoLines } from "lib/parse-resume-from-pdf/group-text-items-into-lines";
+import { groupLinesIntoSections } from "lib/parse-resume-from-pdf/group-lines-into-sections";
+import { extractResumeFromSections } from "lib/parse-resume-from-pdf/extract-resume-from-sections";
+import { ResumeDropzone } from "components/ResumeDropzone";
+import { FlexboxSpacer } from "components/FlexboxSpacer";
+import { Heading, Paragraph } from "components/documentation";
+import { ResumeJsonDisplay } from "resume-parser/ResumeJsonDisplay";
 
-export default function ImportResume() {
-  const [hasUsedAppBefore, setHasUsedAppBefore] = useState(false);
-  const [hasAddedResume, setHasAddedResume] = useState(false);
-  const onFileUrlChange = (fileUrl: string) => {
-    setHasAddedResume(Boolean(fileUrl));
-  };
+const defaultFileUrl = "";
+
+export default function ResumeParser() {
+  const [fileUrl, setFileUrl] = useState(defaultFileUrl);
+  const [textItems, setTextItems] = useState<TextItems>([]);
+  const [jobDescription, setJobDescription] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  
+  const lines = groupTextItemsIntoLines(textItems || []);
+  const sections = groupLinesIntoSections(lines);
+  const resume = extractResumeFromSections(sections);
 
   useEffect(() => {
-    setHasUsedAppBefore(getHasUsedAppBefore());
-  }, []);
+    async function fetchPdf() {
+      if (fileUrl) {
+        const textItems = await readPdf(fileUrl);
+        setTextItems(textItems);
+      }
+    }
+    fetchPdf();
+  }, [fileUrl]);
+
+  useEffect(() => {
+    // Log resume data to console
+    console.log(resume);
+  }, [resume]); // This will run every time `resume` is updated
 
   return (
-    <main className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <div className="mx-auto mt-0/Users/rishabhsharma/Downloads/jobdope-2.ico max-w-3xl rounded-md border border-gray-300 bg-white px-10 py-10 text-center shadow-lg">
-        {!hasUsedAppBefore ? (
-          <>
-            <h1 className="text-2xl font-semibold text-[#212e7c]">
-              Import data from an existing resume
-            </h1>
-            <ResumeDropzone
-              onFileUrlChange={onFileUrlChange}
-              className="mt-5"
-            />
-            {!hasAddedResume && (
-              <>
-                <OrDivider />
-                <SectionWithHeadingAndCreateButton
-                  heading="Don't have a resume yet?"
-                  buttonText="Create from scratch"
-                />
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            {!hasAddedResume && (
-              <>
-                <SectionWithHeadingAndCreateButton
-                  heading="You have data saved in the browser from a prior session"
-                  buttonText="Continue where I left off"
-                />
-                <OrDivider />
-              </>
-            )}
-            <h1 className="text-2xl font-semibold text-[#212e7c]">
-              Override data with a new resume
-            </h1>
-            <ResumeDropzone
-              onFileUrlChange={onFileUrlChange}
-              className="mt-5"
-            />
-          </>
-        )}
+    <main className="h-full w-full overflow-hidden">
+      <div className="grid md:grid-cols-6">
+        <div className="flex justify-center px-2 md:col-span-3 md:h-[calc(100vh-var(--top-nav-bar-height))] md:justify-end">
+          <section className="mt-5 grow px-4 md:max-w-[600px] md:px-0">
+            <div className="h-full w-full">
+              <textarea
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="Enter job description here to get started."
+                className={`w-full p-4 border-2 rounded-md resize-none focus:outline-none ${
+                  isFocused ? "border-purple-500" : "border-gray-300"
+                }`}
+                style={{ height: "840px" }}  // Adjust the height here
+              />
+            </div>
+          </section>
+          <FlexboxSpacer maxWidth={45} className="hidden md:block" />
+        </div>
+        <div className="flex px-6 text-gray-900 md:col-span-3 md:h-[calc(100vh-var(--top-nav-bar-height))] md:overflow-y-scroll">
+          <FlexboxSpacer maxWidth={45} className="hidden md:block" />
+          <section className="max-w-[600px] grow">
+            <Heading className="text-primary !mt-4">
+              Resume Parser
+            </Heading>
+            <Paragraph smallMarginTop={true}>
+              Upload your resume to see how well it can be parsed. The parsing results will be displayed in the table below.
+              This is just to give you an idea how your parsed resume will look like.
+            </Paragraph>
+            <div className="mt-3">
+              <ResumeDropzone
+                onFileUrlChange={(fileUrl) =>
+                  setFileUrl(fileUrl || defaultFileUrl)
+                }
+                playgroundView={true}
+              />
+            </div>
+            <Heading level={2} className="!mt-[1.2em]">
+              Resume Parsing Results
+            </Heading>
+            {/* <ResumeTable resume={resume} /> */}
+            <ResumeJsonDisplay resume={resume} />
+            <div className="pt-24" />
+          </section>
+        </div>
       </div>
     </main>
   );
 }
-
-const OrDivider = () => (
-  <div className="mx-[-2.5rem] flex items-center pb-6 pt-8" aria-hidden="true">
-    <div className="flex-grow border-t border-gray-300" />
-    <span className="mx-2 mt-[-2px] flex-shrink text-lg text-gray-500">or</span>
-    <div className="flex-grow border-t border-gray-300" />
-  </div>
-);
-
-const SectionWithHeadingAndCreateButton = ({
-  heading,
-  buttonText,
-}: {
-  heading: string;
-  buttonText: string;
-}) => {
-  return (
-    <>
-      <p className="text-lg font-semibold text-[#212e7c]">{heading}</p>
-      <div className="mt-5">
-        <Link
-          href="/resume-builder"
-          className="outline-theme-blue inline-block rounded-full bg-[#7788EE] px-6 pb-2 pt-1.5 text-base font-semibold text-white hover:bg-[#212e7c] transition-all duration-300 hover:shadow-lg hover:scale-105"
-        >
-          {buttonText}
-        </Link>
-      </div>
-    </>
-  );
-};
